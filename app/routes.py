@@ -16,7 +16,7 @@ generated_image_path = None
 def index():
     return render_template('index.html')
 
-@bp.route('/generate', methods=['POST'])
+@bp.route('/.netlify/functions/generate', methods=['POST'])
 def generate():
     global generated_image_path
 

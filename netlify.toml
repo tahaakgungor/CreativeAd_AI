@@ -1,5 +1,5 @@
+[build]
+  functions = "netlify_functions/"
 
-
-[[edge_functions]]
-function = "log"
-path = "/test"
+[[plugins]]
+  package = "@netlify/plugin-functions"

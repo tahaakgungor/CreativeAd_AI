@@ -86,7 +86,7 @@
 </head>
 <body>
     <h1>Welcome to the Ad Generator!</h1>
-    <form action="/generate" method="POST" enctype="multipart/form-data" onsubmit="return disableButton()">
+    <form action="/.netlify/functions/generate" method="post" enctype="multipart/form-data" onsubmit="return disableButton()">
         <label for="image">Image:</label>
         <input type="file" name="image" id="image" accept=".png, .jpg, .jpeg" onchange="previewImage(this)" required />
         <br />
