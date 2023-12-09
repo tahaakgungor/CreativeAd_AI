@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Ad</title>
+    <style>
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+            color: #fff;
+            font-size: 24px; /* Adjust font size as needed */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            display: inline-block;
+            text-align: left;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input {
+            margin-bottom: 10px;
+            width: calc(100% - 16px); /* Adjust width to accommodate padding */
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        input[type="color"] {
+            height: 30px; /* Adjust the height as needed */
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Ad Generator!</h1>
+    <form action="{{ url_for('main.generate') }}" method="post" enctype="multipart/form-data" onsubmit="return disableButton()">
+        <label for="image">Image:</label>
+        <input type="file" name="image" id="image" accept=".png, .jpg, .jpeg" onchange="previewImage(this)" required />
+        <br />
+        <img id="imagePreview" alt="Image Preview" />
+        <br />
+        <label for="prompt">Prompt:</label>
+        <input type="text" name="prompt" id="prompt" placeholder="Prompt" required />
+        <br />
+        <label for="color">Color:</label>
+        <input type="color" name="color" id="color" value="#000000" required />
+        <br />
+        <label for="logo">Logo:</label>
+        <input type="file" name="logo" id="logo" accept=".png, .jpg, .jpeg" onchange="previewImage(this)" required />
+        <br />
+        <img id="logoPreview" alt="Logo Preview" />
+        <br />
+        <label for="punchline">Punchline:</label>
+        <input type="text" name="punchline" id="punchline" placeholder="Punchline" required />
+        <br />
+        <label for="punchline_color">Punchline Color:</label>
+        <input type="color" name="punchline_color" id="punchline_color" value="#000000" required />
+        <br />
+        <label for="button_text">Button Text:</label>
+        <input type="text" name="button_text" id="button_text" placeholder="Button Text" required />
+        <br />
+        <label for="button_color">Button Color:</label>
+        <input type="color" name="button_color" id="button_color" value="#000000" required />
+        <br />
+        <button type="submit" id="generateButton" disabled>Generate Image</button>
+        <div id="loading" class="loading" style="display: none;">Loading...</div>
+    </form>
+
+    <script>
+        function disableButton() {
+            // Disable the button
+            document.getElementById('generateButton').disabled = true;
+            // Display the loading indicator
+            document.getElementById('loading').style.display = 'flex';
+            return true; // Continue with form submission
+        }
+
+        function checkInputs() {
+            // Get all input elements
+            const inputs = document.querySelectorAll('input[required]');
+            let allInputsFilled = true;
+
+            // Check if all required inputs are filled
+            inputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    allInputsFilled = false;
+                }
+            });
+
+            // Enable or disable the button based on input validation
+            document.getElementById('generateButton').disabled = !allInputsFilled;
+        }
+
+        // Attach the checkInputs function to input change events
+        const inputElements = document.querySelectorAll('input[required]');
+        inputElements.forEach(input => {
+            input.addEventListener('input', checkInputs);
+        });
+    </script>
+
+    <script>
+        function previewImage(input) {
+            const previewId = input.id === 'image' ? 'imagePreview' : 'logoPreview';
+            const preview = document.getElementById(previewId);
+            const file = input.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+
+            // Trigger input validation on image change
+            checkInputs();
+        }
+    </script>
+</body>
+</html>
