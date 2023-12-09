@@ -8,11 +8,5 @@
   [headers.values]
     Access-Control-Allow-Origin = "*"
 
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
-[[functions]]
+[functions]
   directory = "netlify/functions"
-
-[dev]
-  port = 3000  # Opsiyonel, geliştirme ortamı portu
