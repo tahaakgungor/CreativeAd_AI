@@ -1,0 +1,18 @@
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[[functions]]
+  directory = "netlify/functions"
+
+[dev]
+  port = 3000  # Opsiyonel, geliştirme ortamı portu
