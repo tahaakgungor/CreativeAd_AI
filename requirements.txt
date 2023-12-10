@@ -1,5 +1,5 @@
 Flask
 Pillow
 diffusers
-torch
 uuid
+torch==1.9.1
