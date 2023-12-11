@@ -41,7 +41,7 @@ def generate():
 
         generated_image_result = generate_image(uploaded_image_content, prompt, color_hex)
         generated_image_path = generated_image_result["output_image_path"]
-        print(f"Generated image path: {generated_image_path}")
+        # print(f"Generated image path: {generated_image_path}")
 
         # Diğer inputlardan gerekli değerleri al
         punchline = request.form['punchline']
